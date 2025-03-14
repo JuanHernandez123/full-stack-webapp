@@ -1,46 +1,129 @@
-# Getting Started with Create React App
+# Full-Stack Web Application
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Project Overview
 
-## Available Scripts
+This project is a full-stack web application that allows users to manage pet information. It includes a React frontend, a Node.js/Express backend, and a MongoDB database. The application supports CRUD operations (Create, Read, Update, Delete) for pet information.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **WebApp:** A React application with a form to collect pet information and a table to display the list of pets.
+- **API:** A Node.js/Express API to handle CRUD operations for pet information.
+- **Database:** A MongoDB database to store pet information.
+- **Automation Framework:** (To be implemented) Automated tests for the web application and API.
+- **CI/CD:** (To be implemented) Jenkins integration for continuous integration and deployment.
+- **Containers:** (To be implemented) Docker integration for containerization.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Prerequisites
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- Node.js (v20.19.0 or later)
+- npm (v10.2.4 or later)
+- MongoDB (running locally)
 
-### `npm test`
+## Project Structure
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+full-stack-webapp/
+├── api/
+│   ├── src/
+│   │   ├── controllers/
+│   │   ├── models/
+│   │   ├── routes/
+│   │   └── index.ts
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── README.md
+├── webapp/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── services/
+│   │   ├── types/
+│   │   └── index.tsx
+│   ├── package.json
+│   ├── tsconfig.json
+│   └── README.md
+└── README.md
+```
 
-### `npm run build`
+## Getting Started
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 1. Clone the Repository
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```sh
+git clone https://github.com/your-repo/full-stack-webapp.git
+cd full-stack-webapp
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### 2. Set Up the API
 
-### `npm run eject`
+1. Navigate to the `api` directory:
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```sh
+cd api
+```
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+2. Install dependencies:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+```sh
+npm install
+```
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+3. Start the API server:
 
-## Learn More
+```sh
+npm start
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+You should see:
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+```
+Connected to MongoDB
+Server is running on port 3001
+```
+
+### 3. Set Up the WebApp
+
+1. Open a new terminal and navigate to the `webapp` directory:
+
+```sh
+cd ../webapp
+```
+
+2. Install dependencies:
+
+```sh
+npm install
+```
+
+3. Start the React development server:
+
+```sh
+npm start
+```
+
+The React app should automatically open in your default browser at `http://localhost:3000`.
+
+### 4. Verify the Application
+
+- Open your browser and navigate to `http://localhost:3000`.
+- You should see the pet information form and the list of pets.
+- Use the form to add new pets and see them displayed in the table.
+- Use the delete button to remove pets from the list.
+
+## Troubleshooting
+
+- Ensure MongoDB is running locally.
+- If you encounter issues with the integrated terminal in VS Code, try using an external terminal.
+- Verify that the Node.js and npm versions are correct by running `node --version` and `npm --version`.
+
+## Future Enhancements
+
+- Add edit functionality to update existing pets.
+- Implement sorting and filtering for the table.
+- Add loading states and better error handling.
+- Set up automated tests for the web application and API.
+- Integrate Jenkins for CI/CD.
+- Containerize the application using Docker.
+
+## License
+
+This project is licensed under the MIT License.
