@@ -1,6 +1,5 @@
 import React from 'react';
 import './App.css';
-import PetForm from './components/PetForm';
 import PetList from './components/PetList';
 
 function App() {
@@ -10,7 +9,6 @@ function App() {
         <h1>Pet Information System</h1>
       </header>
       <main style={{ padding: '20px' }}>
-        <PetForm onSuccess={() => window.location.reload()} />
         <PetList />
       </main>
     </div>

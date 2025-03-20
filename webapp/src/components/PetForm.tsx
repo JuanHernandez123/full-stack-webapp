@@ -1,46 +1,69 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { api } from '../services/api';
+import { Pet } from '../types/pet';
 
 interface PetFormProps {
+  petToEdit?: Pet | null;
   onSuccess?: () => void;
 }
 
-const PetForm: React.FC<PetFormProps> = ({ onSuccess }) => {
-  const [pet, setPet] = useState({
+const PetForm: React.FC<PetFormProps> = ({ petToEdit, onSuccess }) => {
+  const [pet, setPet] = useState<Partial<Pet>>({
     name: '',
-    age: '',
+    age: undefined,
     type: '',
     owner: '',
   });
   const [error, setError] = useState<string>('');
 
+  useEffect(() => {
+    if (petToEdit) {
+      setPet(petToEdit); // Populate form with petToEdit data
+    } else {
+      setPet({ name: '', age: undefined, type: '', owner: '' }); // Reset form
+    }
+  }, [petToEdit]);
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setPet(prev => ({
       ...prev,
-      [name]: value,
+      [name]: name === 'age' ? Number(value) : value, // Convert `age` to a number
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleCreate = async () => {
     try {
-      await api.createPet({
-        ...pet,
-        age: Number(pet.age),
-      });
-      setPet({ name: '', age: '', type: '', owner: '' });
+      const newPet = {
+        name: pet.name as string,
+        age: pet.age as number,
+        type: pet.type as string,
+        owner: pet.owner as string,
+      };
+      await api.createPet(newPet);
       setError('');
-      if (onSuccess) {
-        onSuccess();
-      }
+      setPet({ name: '', age: undefined, type: '', owner: '' });
+      if (onSuccess) onSuccess();
     } catch (err) {
       setError('Failed to create pet');
     }
   };
 
+  const handleUpdate = async () => {
+    try {
+      if (petToEdit && petToEdit._id) {
+        await api.updatePet(petToEdit._id, pet);
+        setError('');
+        setPet({ name: '', age: undefined, type: '', owner: '' });
+        if (onSuccess) onSuccess();
+      }
+    } catch (err) {
+      setError('Failed to update pet');
+    }
+  };
+
   return (
-    <form onSubmit={handleSubmit}>
+    <form>
       {error && <div style={{ color: 'red' }}>{error}</div>}
       <div>
         <label htmlFor="name">Name:</label>
@@ -48,7 +71,7 @@ const PetForm: React.FC<PetFormProps> = ({ onSuccess }) => {
           type="text"
           id="name"
           name="name"
-          value={pet.name}
+          value={pet.name || ''}
           onChange={handleChange}
           required
         />
@@ -59,7 +82,7 @@ const PetForm: React.FC<PetFormProps> = ({ onSuccess }) => {
           type="number"
           id="age"
           name="age"
-          value={pet.age}
+          value={pet.age ?? ''}
           onChange={handleChange}
           required
         />
@@ -69,7 +92,7 @@ const PetForm: React.FC<PetFormProps> = ({ onSuccess }) => {
         <select
           id="type"
           name="type"
-          value={pet.type}
+          value={pet.type || ''}
           onChange={handleChange}
           required
         >
@@ -85,12 +108,19 @@ const PetForm: React.FC<PetFormProps> = ({ onSuccess }) => {
           type="text"
           id="owner"
           name="owner"
-          value={pet.owner}
+          value={pet.owner || ''}
           onChange={handleChange}
           required
         />
       </div>
-      <button type="submit">Submit</button>
+      <div style={{ marginTop: '10px' }}>
+        <button type="button" onClick={handleCreate} disabled={!!petToEdit}>
+          Create
+        </button>
+        <button type="button" onClick={handleUpdate} disabled={!petToEdit}>
+          Update
+        </button>
+      </div>
     </form>
   );
 };
