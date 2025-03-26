@@ -6,6 +6,7 @@ import petRoutes from './routes/petRoutes';
 const app = express();
 const port = process.env.PORT || 3001;
 
+// Middleware
 app.use(cors());
 app.use(express.json());
 app.use(petRoutes);
@@ -16,10 +17,11 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use(express.json());
-app.use(petRoutes);
+// MongoDB connection
+const mongoUri = process.env.MONGO_URI || 'mongodb://localhost:27017/petdb';
 
-mongoose.connect('mongodb://localhost:27017/petdb')
+mongoose
+  .connect(mongoUri)
   .then(() => {
     console.log('Connected to MongoDB');
     app.listen(port, () => {
@@ -29,4 +31,3 @@ mongoose.connect('mongodb://localhost:27017/petdb')
   .catch((error) => {
     console.error('Error connecting to MongoDB', error);
   });
-

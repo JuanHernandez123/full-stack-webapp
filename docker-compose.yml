@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+  api:
+    build:
+      context: ./api
+    ports:
+      - "3001:3001"
+    environment:
+      - MONGO_URI=mongodb://mongo:27017/pets # MongoDB connection string
+    depends_on:
+      - mongo
+
+  webapp:
+    build:
+      context: ./webapp
+    ports:
+      - "3000:80"
+    depends_on:
+      - api
+
+  mongo:
+    image: mongo:5
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+
+volumes:
+  mongo-data:

@@ -2,127 +2,173 @@
 
 ## Project Overview
 
-This project is a full-stack web application that allows users to manage pet information. It includes a React frontend, a Node.js/Express backend, and a MongoDB database. The application supports CRUD operations (Create, Read, Update, Delete) for pet information.
+This project is a full-stack web application that allows users to manage pet information. It includes:
+- **React Frontend:** A user interface for managing pet data.
+- **Node.js API:** A backend API for handling CRUD operations.
+- **MongoDB Database:** A database for storing pet information.
+- **Dockerized Environment:** The entire application is containerized using Docker and managed with Docker Compose.
+
+---
 
 ## Features
 
-- **WebApp:** A React application with a form to collect pet information and a table to display the list of pets.
-- **API:** A Node.js/Express API to handle CRUD operations for pet information.
+- **Frontend:** A React app with a form to add/update pets and a table to display the list of pets.
+- **Backend:** A Node.js/Express API to handle CRUD operations.
 - **Database:** A MongoDB database to store pet information.
-- **Automation Framework:** (To be implemented) Automated tests for the web application and API.
-- **CI/CD:** (To be implemented) Jenkins integration for continuous integration and deployment.
-- **Containers:** (To be implemented) Docker integration for containerization.
+- **Docker:** All services (frontend, backend, and database) are containerized and managed with Docker Compose.
+
+---
 
 ## Prerequisites
 
-- Node.js (v20.19.0 or later)
-- npm (v10.2.4 or later)
-- MongoDB (running locally)
+Before running the project, ensure you have the following installed:
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
+- [Node.js](https://nodejs.org/) (only required if running locally without Docker)
+
+---
+
+## Getting Started
+
+### **1. Clone the Repository**
+```bash
+git clone https://github.com/your-repo/full-stack-webapp.git
+cd full-stack-webapp
+```
+
+---
+
+### **2. Run the Application with Docker**
+
+1. **Build and Start the Containers:**
+   - Navigate to the project root directory (where `docker-compose.yml` is located):
+     ```bash
+     cd c:\Automation_Projects\full-stack-webapp
+     ```
+   - Build and start the containers:
+     ```bash
+     docker-compose up --build
+     ```
+
+2. **Access the Application:**
+   - **Frontend:** Open your browser and go to `http://localhost:3000`.
+   - **API:** Use Postman or your browser to access the API at `http://localhost:3001`.
+
+3. **Stop the Containers:**
+   - To stop all running containers:
+     ```bash
+     docker-compose down
+     ```
+
+---
+
+### **3. Run the Application Locally (Without Docker)**
+
+If you prefer to run the application locally without Docker, follow these steps:
+
+#### **Run the MongoDB Database**
+1. Install and start MongoDB locally.
+2. Ensure MongoDB is running on `mongodb://localhost:27017`.
+
+#### **Run the API**
+1. Navigate to the `api` directory:
+   ```bash
+   cd api
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the API:
+   ```bash
+   npm start
+   ```
+4. The API will be available at `http://localhost:3001`.
+
+#### **Run the Frontend**
+1. Navigate to the `webapp` directory:
+   ```bash
+   cd webapp
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Start the React app:
+   ```bash
+   npm start
+   ```
+4. The frontend will be available at `http://localhost:3000`.
+
+---
 
 ## Project Structure
 
 ```
 full-stack-webapp/
-├── api/
+├── api/                # Backend API
 │   ├── src/
 │   │   ├── controllers/
 │   │   ├── models/
 │   │   ├── routes/
 │   │   └── index.ts
+│   ├── Dockerfile       # Dockerfile for the API
 │   ├── package.json
-│   ├── tsconfig.json
-│   └── README.md
-├── webapp/
+│   └── tsconfig.json
+├── webapp/             # Frontend React App
 │   ├── src/
 │   │   ├── components/
 │   │   ├── services/
 │   │   ├── types/
 │   │   └── index.tsx
+│   ├── Dockerfile       # Dockerfile for the frontend
 │   ├── package.json
-│   ├── tsconfig.json
-│   └── README.md
-└── README.md
+│   └── tsconfig.json
+├── docker-compose.yml   # Docker Compose configuration
+└── README.md            # Project documentation
 ```
 
-## Getting Started
-
-### 1. Clone the Repository
-
-```sh
-git clone https://github.com/your-repo/full-stack-webapp.git
-cd full-stack-webapp
-```
-
-### 2. Set Up the API
-
-1. Navigate to the `api` directory:
-
-```sh
-cd api
-```
-
-2. Install dependencies:
-
-```sh
-npm install
-```
-
-3. Start the API server:
-
-```sh
-npm start
-```
-
-You should see:
-
-```
-Connected to MongoDB
-Server is running on port 3001
-```
-
-### 3. Set Up the WebApp
-
-1. Open a new terminal and navigate to the `webapp` directory:
-
-```sh
-cd ../webapp
-```
-
-2. Install dependencies:
-
-```sh
-npm install
-```
-
-3. Start the React development server:
-
-```sh
-npm start
-```
-
-The React app should automatically open in your default browser at `http://localhost:3000`.
-
-### 4. Verify the Application
-
-- Open your browser and navigate to `http://localhost:3000`.
-- You should see the pet information form and the list of pets.
-- Use the form to add new pets and see them displayed in the table.
-- Use the delete button to remove pets from the list.
+---
 
 ## Troubleshooting
 
-- Ensure MongoDB is running locally.
-- If you encounter issues with the integrated terminal in VS Code, try using an external terminal.
-- Verify that the Node.js and npm versions are correct by running `node --version` and `npm --version`.
+### **Common Docker Commands**
+- **List Running Containers:**
+  ```bash
+  docker ps
+  ```
+- **View Logs for All Services:**
+  ```bash
+  docker-compose logs -f
+  ```
+- **Stop All Containers:**
+  ```bash
+  docker-compose down
+  ```
+- **Rebuild and Restart Containers:**
+  ```bash
+  docker-compose up --build
+  ```
+
+### **API Not Connecting to MongoDB**
+- Ensure the `MONGO_URI` environment variable in `docker-compose.yml` is set to:
+  ```yaml
+  MONGO_URI=mongodb://mongo:27017/pets
+  ```
+- Check the logs for the API container:
+  ```bash
+  docker-compose logs api
+  ```
+
+---
 
 ## Future Enhancements
 
-- Add edit functionality to update existing pets.
-- Implement sorting and filtering for the table.
-- Add loading states and better error handling.
-- Set up automated tests for the web application and API.
-- Integrate Jenkins for CI/CD.
-- Containerize the application using Docker.
+- **Sorting and Filtering:** Add sorting and filtering functionality to the frontend.
+- **Error Handling:** Improve error handling in the API and frontend.
+- **CI/CD Pipeline:** Automate the build and deployment process using Jenkins.
+- **Automated Tests:** Add unit and integration tests for the API and frontend.
+
+---
 
 ## License
 
